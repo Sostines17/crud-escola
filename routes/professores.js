@@ -1,5 +1,4 @@
 const express = require("express");
-const { captureOwnerStack } = require("react");
 const router = express.Router();
 
 let professores = [
@@ -27,11 +26,9 @@ router.post("/professores", (req, res, next) => {
 
   // Validação de campos obrigatórios
   if (!nome || !cpf || !email || !curso || !diciplina) {
-    return res
-      .status(400)
-      .json({
-        error: "nome, cpf, email, curso e diciplina são obrigatorios!!!!!",
-      });
+    return res.status(400).json({
+      error: "nome, cpf, email, curso e diciplina são obrigatorios!!!!!",
+    });
   }
 
   // Validação de CPF único
