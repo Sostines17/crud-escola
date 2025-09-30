@@ -20,7 +20,7 @@
   "homepage": "https://github.com/Sostines17/crud-escola#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "sxpress": "^1.0.3"
+    "express": "^5.1.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
