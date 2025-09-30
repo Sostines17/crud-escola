@@ -5,9 +5,9 @@ const router = express.Router();
 let professores = [
   {
     id: 1,
-    nome: "João Pedro",
+    nome: "Lucas Henrique",
     CPF: "02863647199",
-    email: "joao@pedro.com",
+    email: "lucas@henrique.com",
     curso: "ADS",
     diciplina: "Backand",
   },
@@ -21,22 +21,28 @@ let professores = [
   },
 ];
 
+// --- Rota POST: Cadastrar Novo Professor ---
 router.post("/professores", (req, res, next) => {
   const { nome, cpf, email, curso, diciplina } = req.body;
 
+  // Validação de campos obrigatórios
   if (!nome || !cpf || !email || !curso || !diciplina) {
-    return res.status(400).json({
-      error: "nome, cpf, email, curso e diciplina são obrigatorios!!!!!",
-    });
+    return res
+      .status(400)
+      .json({
+        error: "nome, cpf, email, curso e diciplina são obrigatorios!!!!!",
+      });
   }
 
-  const PROFESSOR = professores.find((p) => p.cpf == cpf);
-  if (p) {
+  // Validação de CPF único
+  const PROFESSOR = professores.find((p) => professor.cpf == cpf);
+  if (professor) {
     return res.status(409).json({ erro: "CPF já cadastrado!!!!" });
   }
 
+  // Criação do novo Professor
   const novap = {
-    id: Date.now(),
+    id: Date.now(), // Usando timestamp como ID provisório
     nome,
     cpf,
     email,
@@ -44,55 +50,63 @@ router.post("/professores", (req, res, next) => {
     diciplina,
   };
 
-  ps.push(novop);
-  res.status(201).json({ message: "p cadastrada!!!!", novop });
+  professores.push(novop);
+  res.status(201).json({ message: "professor cadastrada!!!!", novoprofessor });
 });
 
+// --- Rota GET: Listar Todos os Professores ---
 router.get("/professores", (req, res, next) => {
-  res.json(ps);
+  res.json(professores);
 });
 
+// --- Rota GET: Buscar Professores por ID ---
 router.get("/professores/:id", (req, res, next) => {
   const idRecebido = req.params.id;
-  const p = professores.find((p) => p.id == idRecebido);
-  if (!p) {
+  const professor = professores.find((professor) => professor.id == idRecebido);
+
+  if (!professor) {
     return res.status(404).json({ error: "professor não encontrada" });
   }
 
-  res.json(p);
+  res.json(professor);
 });
 
+// --- Rota PUT: Atualizar Professor por ID ---
 router.put("/professores/:id", (req, res, next) => {
   const idRecebido = req.params.id;
   const { nome, email, curso, diciplina } = req.body;
 
+  // Validação de campos obrigatórios para atualização
   if (!nome || !email || !curso || !diciplina) {
     return res
       .status(400)
       .json({ error: "nome, email, curso e diciplina são obrigatorios" });
   }
 
-  //validar se o professor com aquele ID existe na lista
-  const p = professores.find((p) => p.id == idRecebido);
-  if (!p) {
+  // Encontrar o aluno
+  const professor = professores.find((professor) => professor.id == idRecebido);
+  if (!professor) {
     return res.status(404).json({ error: "professor não encontrada!!!" });
   }
 
-  p.nome = nome;
-  p.email = email;
-  p.curso = curso;
-  p.diciplina = diciplina;
+  // Atalização dos dados
+  professor.nome = nome;
+  professor.email = email;
+  professor.curso = curso;
+  professor.diciplina = diciplina;
   res.json({ message: "Dados atualizados com sucesso!!!" });
 });
 
+// --- Rota DELETE: Excluir Aluno por ID ---
 router.delete("/professores/:id", (req, res, next) => {
   const idRecebido = req.params.id;
-  const p = professores.find((p) => p.id == idRecebido);
-  if (!p) {
+  const professor = professores.find((professor) => professor.id == idRecebido);
+
+  if (!professor) {
     return res.status(404).json({ error: "professor Não encontrada!!!" });
   }
   //sobrescrever a lista com um novo sem o professor do idrecebido
-  professores = professores.filter((p) => p.id != idRecebido);
+  professores = professores.filter((professor) => professor.id != idRecebido);
 
   res.json({ message: "professor excluída com sucesso" });
 });
